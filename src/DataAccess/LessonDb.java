@@ -21,7 +21,7 @@ public class LessonDb extends AllDb{
         boolean success = false;
         try {
             ps = SQLDatabase.getConnection().prepareStatement(query);
-            ps.setString(1, lesson.getDate());
+            ps.setString(1, lesson.getDate().toString());
             ps.setInt(2, lesson.getHourlyRate());
             ps.setInt(3, lesson.getLessonLength());
             ps.setInt(4, lesson.getSubjectId());
@@ -48,7 +48,6 @@ public class LessonDb extends AllDb{
         try {
             Statement statement = SQLDatabase.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(query);
-//            lessonTables.add(new LessonTable("Robert", "09/13/1987", 50, 90, "Python", "Wyzant", 75));
             while (rs.next()) {
                 int hourlyRate = rs.getInt("hourly_rate");
                 int lessonLength = rs.getInt("lesson_length");
@@ -57,7 +56,6 @@ public class LessonDb extends AllDb{
                 // TODO: Should be float
                 int earnings = hourlyRate * lessonLength;
                 earnings = (int) (payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60));
-//                int calculatedEarnings = Integer.parseInt(earnings);
 
                 LessonTable customer = new LessonTable(
                         rs.getString("student.name"),
@@ -79,12 +77,24 @@ public class LessonDb extends AllDb{
         }
     }
 
-    public static ObservableList<LessonTable> getFilteredLessons() {
+    public static ObservableList<LessonTable> getFilteredLessons(int month, int year) {
+        int day = 31;
+        //Check for leap year
+        if (month == 2 && year % 4 == 0){
+            day = 29;
+        }
+        else if (month == 2){
+            day = 28;
+        }
+        //30 days if month is April(4), June(6), September(9), and November(11)
+        else if (month == 4 || month == 6 || month == 9 || month == 11){
+            day = 30;
+        }
         String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM lesson \n" +
                 "INNER JOIN subject ON subject.subject_id = lesson.subject_id\n" +
                 "INNER JOIN student ON student.student_id = lesson.student_id\n" +
                 "INNER JOIN payment_type ON payment_type.payment_type_id = lesson.payment_type_id\n" +
-                "WHERE payment_type.name = 'Wyzant';";
+                "WHERE date BETWEEN '"+year+"-"+month+"-01' and '"+year+"-"+month+"-"+day+"';";
         ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
         try {
@@ -99,7 +109,6 @@ public class LessonDb extends AllDb{
                 // TODO: Should be float
                 int earnings = hourlyRate * lessonLength;
                 earnings = (int) (payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60));
-//                int calculatedEarnings = Integer.parseInt(earnings);
 
                 LessonTable customer = new LessonTable(
                         rs.getString("student.name"),
@@ -111,10 +120,8 @@ public class LessonDb extends AllDb{
                         earnings);
                 lessonTables.add(customer);
             }
-
             statement.close();
             return lessonTables;
-
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             return null;

@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddLessonController extends Controller implements Initializable {
@@ -37,7 +38,7 @@ public class AddLessonController extends Controller implements Initializable {
     }
 
     public void onAddLessonBtnPress(ActionEvent event) {
-        String date = "";
+        LocalDate date = null;
         int hourlyRate = 0;
         int lessonLength = 0;
         int subjectId = 0;
@@ -45,7 +46,7 @@ public class AddLessonController extends Controller implements Initializable {
         int studentId = 0;
 
         try {
-            date = dateDp.getValue().toString();
+            date = dateDp.getValue();
             hourlyRate = Integer.parseInt(hourlyRateTf.getText());
             lessonLength = Integer.parseInt(lessonLengthTf.getText());
             subjectId = subjectCb.getValue().getSubjectId();

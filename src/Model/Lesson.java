@@ -1,18 +1,19 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Lesson {
 
     private int lessonId;
-    private String date;
+    private LocalDate date;
     private int hourlyRate;
     private int lessonLength;
     private int subjectId;
     private int paymentId;
     private int studentId;
 
-    public Lesson(String date, int hourlyRate, int lessonLength, int subjectId, int paymentId, int studentId) {
+    public Lesson(LocalDate date, int hourlyRate, int lessonLength, int subjectId, int paymentId, int studentId) {
         this.date = date;
         this.hourlyRate = hourlyRate;
         this.lessonLength = lessonLength;
@@ -29,11 +30,11 @@ public class Lesson {
         this.lessonId = lessonId;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -67,7 +67,7 @@ public class ViewLessonsController extends Controller implements Initializable {
     // BUTTON ACTIONS
     public void onSearchBtnPress(ActionEvent actionEvent) {
         int year;
-        String month = monthCb.getValue();
+        int month = monthCb.getSelectionModel().getSelectedIndex() + 1;
         // TODO: Add alerts for errors
         try{
             year = yearCb.getValue();
@@ -76,11 +76,11 @@ public class ViewLessonsController extends Controller implements Initializable {
             CustomAlerts.WarningAlert("Year not selected", "Please select a year");
             return;
         }
-        if (month != null){
+        if (month != 0){
             System.out.println(
                     year + month
             );
-            data = LessonDb.getFilteredLessons();
+            data = LessonDb.getFilteredLessons(month, year);
             lessonTbl.setItems(data);
         }
         else{
