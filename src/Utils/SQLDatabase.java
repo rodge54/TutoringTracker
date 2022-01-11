@@ -5,7 +5,10 @@ import java.sql.*;
 public class SQLDatabase {
     private static final String url = "jdbc:mysql://localhost:3306/tutoringtrackerdb";
     private static final String User_Name = "root";
-    private static final String password = "1234";
+    //WINDOWS LOCAL DB
+//    private static final String password = "1234";
+    //MAC LOCAL DB
+    private static final String password = "12345678";
     public static Connection conn;
 
     // Connect to Database

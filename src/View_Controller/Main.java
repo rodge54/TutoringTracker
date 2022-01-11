@@ -26,7 +26,6 @@ public class Main extends Application {
         SubjectDb.setSubjects();
         PaymentTypeDb.setPaymentTypes();
 
-
         launch(args);
         SQLDatabase.disconnect();
     }

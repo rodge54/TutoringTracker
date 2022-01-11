@@ -78,4 +78,46 @@ public class LessonDb extends AllDb{
             return null;
         }
     }
+
+    public static ObservableList<LessonTable> getFilteredLessons() {
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM lesson \n" +
+                "INNER JOIN subject ON subject.subject_id = lesson.subject_id\n" +
+                "INNER JOIN student ON student.student_id = lesson.student_id\n" +
+                "INNER JOIN payment_type ON payment_type.payment_type_id = lesson.payment_type_id\n" +
+                "WHERE payment_type.name = 'Wyzant';";
+        ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
+
+        try {
+            Statement statement = SQLDatabase.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                int hourlyRate = rs.getInt("hourly_rate");
+                int lessonLength = rs.getInt("lesson_length");
+                String payType = rs.getString("payment_type.name");
+
+                // TODO: Should be float
+                int earnings = hourlyRate * lessonLength;
+                earnings = (int) (payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60));
+//                int calculatedEarnings = Integer.parseInt(earnings);
+
+                LessonTable customer = new LessonTable(
+                        rs.getString("student.name"),
+                        rs.getString("date"),
+                        hourlyRate,
+                        lessonLength,
+                        rs.getString("subject.title"),
+                        payType,
+                        earnings);
+                lessonTables.add(customer);
+            }
+
+            statement.close();
+            return lessonTables;
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            return null;
+        }
+    }
 }
