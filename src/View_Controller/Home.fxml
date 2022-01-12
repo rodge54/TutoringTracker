@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="400" prefWidth="600" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.HomeController">
+<GridPane alignment="center" hgap="10" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.HomeController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -12,17 +12,20 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <VBox prefHeight="131.0" prefWidth="151.0">
+      <VBox prefHeight="710.0" prefWidth="776.0">
          <children>
-            <Button fx:id="addLessonBtn" mnemonicParsing="false" onAction="#onAddLessonBtnPress" prefHeight="60.0" prefWidth="150.0" text="Add New Lesson">
+            <Button fx:id="addLessonBtn" mnemonicParsing="false" onAction="#onAddLessonBtnPress" text="Add New Lesson">
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="addStudentBtn" mnemonicParsing="false" onAction="#onAddStudentBtnPress" text="Add New Student" />
-            <Button fx:id="viewLessonsBth" mnemonicParsing="false" onAction="#onViewLessonBtnPress" prefHeight="60.0" prefWidth="150.0" text="View Lessons">
+            <Button fx:id="addStudentBtn" mnemonicParsing="false" onAction="#onAddStudentBtnPress" text="Add New Student">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets bottom="25.0" />
+               </VBox.margin></Button>
+            <Button fx:id="viewLessonsBth" mnemonicParsing="false" onAction="#onViewLessonBtnPress" text="View Lessons">
+               <VBox.margin>
+                  <Insets bottom="25.0" />
                </VBox.margin>
             </Button>
          </children>

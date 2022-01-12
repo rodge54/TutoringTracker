@@ -18,9 +18,11 @@ public class Controller {
         Parent scene = null;
         try {
             scene = FXMLLoader.load(getClass().getResource(fxmlFile));
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         stage.setTitle(title);
         stage.setScene(new Scene(scene));
         return stage;

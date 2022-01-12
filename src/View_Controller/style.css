@@ -1,0 +1,20 @@
+.label {
+-fx-font-size: 18px;
+
+}
+.title {
+-fx-font-size: 24px;
+-fx-font-weight: bold;
+-fx-padding: 0 0 25 0;
+}
+.new-lesson-lbl {
+-fx-padding: 0 0 25 0;
+}
+
+.new-lesson-entry {
+
+}
+
+.button {
+    -fx-font-size: 30px;
+}
