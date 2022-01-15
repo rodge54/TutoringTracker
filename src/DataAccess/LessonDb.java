@@ -79,6 +79,8 @@ public class LessonDb extends AllDb{
 
     public static ObservableList<LessonTable> getFilteredLessons(int month, int year) {
         int day = 31;
+        String startDate;
+        String endDate;
         //Check for leap year
         if (month == 2 && year % 4 == 0){
             day = 29;
@@ -90,11 +92,23 @@ public class LessonDb extends AllDb{
         else if (month == 4 || month == 6 || month == 9 || month == 11){
             day = 30;
         }
+        if (month < 10){
+            startDate = year + "-0" + month + "-01";
+            endDate = year + "-0" + month + "-" + day;
+        }
+        else {
+            startDate = year + "-" + month + "-01";
+            endDate = year + "-" + month + "-" + day;
+        }
+
+        System.out.println(day);
+        System.out.println(month);
+        System.out.println(year);
         String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM lesson \n" +
                 "INNER JOIN subject ON subject.subject_id = lesson.subject_id\n" +
                 "INNER JOIN student ON student.student_id = lesson.student_id\n" +
                 "INNER JOIN payment_type ON payment_type.payment_type_id = lesson.payment_type_id\n" +
-                "WHERE date BETWEEN '"+year+"-"+month+"-01' and '"+year+"-"+month+"-"+day+"';";
+                "WHERE date BETWEEN '"+startDate+"' and '"+endDate+"';";
         ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
         try {
@@ -121,6 +135,7 @@ public class LessonDb extends AllDb{
                 lessonTables.add(customer);
             }
             statement.close();
+            System.out.println(lessonTables.size());
             return lessonTables;
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());

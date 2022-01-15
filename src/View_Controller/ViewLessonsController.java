@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,6 +29,7 @@ public class ViewLessonsController extends Controller implements Initializable {
     @FXML public TableView<LessonTable> lessonTbl;
     @FXML public ComboBox<Integer> yearCb;
     @FXML public ComboBox<String> monthCb;
+    @FXML public Label earningsLbl;
     private ObservableList<LessonTable> data = FXCollections.observableArrayList();
 
     @Override
@@ -61,6 +63,7 @@ public class ViewLessonsController extends Controller implements Initializable {
         subjectCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("subject"));
         paymentTypeCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("paymentType"));
         earningsCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("earnings"));
+        earningsLbl.setText(calculateTotalEarnings());
         lessonTbl.setItems(data);
     }
 
@@ -81,10 +84,19 @@ public class ViewLessonsController extends Controller implements Initializable {
                     year + month
             );
             data = LessonDb.getFilteredLessons(month, year);
+            earningsLbl.setText(calculateTotalEarnings());
             lessonTbl.setItems(data);
         }
         else{
             CustomAlerts.WarningAlert("Month not selected", "Please select a month");
         }
+    }
+
+    private String calculateTotalEarnings(){
+        String stringTotal;
+
+        double totalEarnings = data.stream().mapToDouble(LessonTable::getEarnings).sum();
+        stringTotal = "Total Earnings: $" + totalEarnings;
+        return stringTotal;
     }
 }

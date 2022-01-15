@@ -4,17 +4,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ViewLessonsController" stylesheets="@style.css">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ViewLessonsController">
    <children>
-      <VBox layoutX="25.0" layoutY="100.0" prefHeight="200.0" prefWidth="553.0">
+      <VBox layoutX="25.0" layoutY="100.0" prefHeight="600.0" prefWidth="1000">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
-                        <ComboBox fx:id="yearCb" prefWidth="150.0" />
-                        <ComboBox fx:id="monthCb" layoutX="10.0" layoutY="10.0" prefWidth="150.0" />
-                         <Button layoutX="24.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSearchBtnPress" prefHeight="50.0" prefWidth="75.0" text="Search">
+                        <ComboBox fx:id="yearCb" prefHeight="25.0" prefWidth="129.0" />
+                        <ComboBox fx:id="monthCb" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="129.0" />
+                         <Button layoutX="24.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSearchBtnPress" text="Search">
                              <font>
                                  <Font size="18.0" />
                              </font>
@@ -23,23 +23,24 @@
                   </VBox>
                </children>
             </HBox>
-            <TableView fx:id="lessonTbl" prefHeight="187.0" prefWidth="435.0">
+            <TableView fx:id="lessonTbl" prefHeight="600" prefWidth="1000">
               <columns>
-                <TableColumn fx:id="studentCol" prefWidth="160.33331871032715" text="student" />
-                <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="56.66668701171875" text="date" />
-                  <TableColumn fx:id="rateCol" minWidth="5.33331298828125" prefWidth="49.33329772949219" text="rate" />
-                  <TableColumn fx:id="lengthCol" prefWidth="57.0" text="length" />
-                  <TableColumn fx:id="subjectCol" prefWidth="72.00006103515625" text="subject" />
-                  <TableColumn fx:id="paymentTypeCol" prefWidth="86.3333740234375" text="paymentType" />
-                  <TableColumn fx:id="earningsCol" prefWidth="75.66665649414062" text="earnings" />
+                    <TableColumn fx:id="studentCol" prefWidth="160.33331871032715" text="student" />
+                    <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="75" text="date" />
+                    <TableColumn fx:id="rateCol" minWidth="5.33331298828125" prefWidth="49.33329772949219" text="rate" />
+                    <TableColumn fx:id="lengthCol" prefWidth="75" text="length" />
+                    <TableColumn fx:id="subjectCol" prefWidth="75" text="subject" />
+                    <TableColumn fx:id="paymentTypeCol" prefWidth="100" text="paymentType" />
+                    <TableColumn fx:id="earningsCol" prefWidth="75" text="earnings" />
               </columns>
             </TableView>
          </children>
       </VBox>
-      <Button layoutX="24.0" layoutY="26.0" mnemonicParsing="false" onAction="#onHomeBtnPress" prefHeight="50.0" prefWidth="75.0" text="Home">
+      <Button layoutX="24.0" layoutY="26.0" mnemonicParsing="false" onAction="#onHomeBtnPress" text="Home">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <Label fx:id="earningsLbl" layoutX="946.0" layoutY="715.0" text="\$00.00" />
    </children>
 </AnchorPane>
