@@ -23,7 +23,7 @@
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin></Button>
-            <Button fx:id="viewLessonsBth" mnemonicParsing="false" onAction="#onViewLessonBtnPress" text="View Lessons">
+            <Button fx:id="viewLessonsBtn" mnemonicParsing="false" onAction="#onViewLessonBtnPress" text="View Lessons">
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin>
