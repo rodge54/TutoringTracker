@@ -67,8 +67,4 @@ public class AddLessonController extends Controller implements Initializable {
             studentCb.setValue(null);
         }
     }
-
-
-
-
 }

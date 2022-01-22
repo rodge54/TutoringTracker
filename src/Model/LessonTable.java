@@ -1,18 +1,20 @@
 package Model;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class LessonTable {
+public class LessonTable{
     private final SimpleStringProperty student = new SimpleStringProperty();
     private final SimpleStringProperty date =  new SimpleStringProperty();
     private final SimpleIntegerProperty rate = new SimpleIntegerProperty();
     private final SimpleIntegerProperty length = new SimpleIntegerProperty();
     private final SimpleStringProperty subject = new SimpleStringProperty();
     private final SimpleStringProperty paymentType = new SimpleStringProperty();
-    private final SimpleIntegerProperty earnings = new SimpleIntegerProperty();
+    private final SimpleDoubleProperty earnings = new SimpleDoubleProperty();
 
-    public LessonTable(String student, String date, int rate, int length, String subject, String paymentType, int earnings) {
+    public LessonTable(String student, String date, int rate, int length, String subject, String paymentType, double earnings) {
         setStudent(student);
         setDate(date);
         setRate(rate);
@@ -94,15 +96,15 @@ public class LessonTable {
         this.paymentType.set(paymentType);
     }
 
-    public int getEarnings() {
+    public double getEarnings() {
         return earnings.get();
     }
 
-    public SimpleIntegerProperty earningsProperty() {
+    public SimpleDoubleProperty earningsProperty() {
         return earnings;
     }
 
-    public void setEarnings(int earnings) {
+    public void setEarnings(double earnings) {
         this.earnings.set(earnings);
     }
 }

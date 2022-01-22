@@ -41,7 +41,6 @@ public class AddStudentController extends Controller implements Initializable {
             System.out.println("Fill in all text fields");
             return;
         }
-        //TODO: Create Database functions
         boolean success = StudentDb.addStudent(new Student(name, phoneNumber, email, timezoneId));
         if (success){
             nameTf.clear();

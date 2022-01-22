@@ -6,6 +6,8 @@ import Utils.SQLDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,9 +55,13 @@ public class LessonDb extends AllDb{
                 int lessonLength = rs.getInt("lesson_length");
                 String payType = rs.getString("payment_type.name");
 
-                // TODO: Should be float
-                int earnings = hourlyRate * lessonLength;
-                earnings = (int) (payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60));
+                double earnings = hourlyRate * lessonLength;
+                earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
+                System.out.println(earnings);
+                // one line
+                BigDecimal earningsBd = new BigDecimal(earnings).setScale(2, RoundingMode.HALF_UP);
+                // convert BigDecimal back to double
+                double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
                         rs.getString("student.name"),
@@ -64,7 +70,7 @@ public class LessonDb extends AllDb{
                         lessonLength,
                         rs.getString("subject.title"),
                         payType,
-                        earnings);
+                        earningsRounded);
                 lessonTables.add(customer);
             }
 
@@ -120,9 +126,13 @@ public class LessonDb extends AllDb{
                 int lessonLength = rs.getInt("lesson_length");
                 String payType = rs.getString("payment_type.name");
 
-                // TODO: Should be float
-                int earnings = hourlyRate * lessonLength;
-                earnings = (int) (payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60));
+                double earnings = hourlyRate * lessonLength;
+                earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
+                // one line
+                BigDecimal earningsBd = new BigDecimal(earnings).setScale(2, RoundingMode.HALF_UP);
+                System.out.println(earningsBd);
+                // convert BigDecimal back to double
+                double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
                         rs.getString("student.name"),
@@ -131,7 +141,7 @@ public class LessonDb extends AllDb{
                         lessonLength,
                         rs.getString("subject.title"),
                         payType,
-                        earnings);
+                        earningsRounded);
                 lessonTables.add(customer);
             }
             statement.close();
