@@ -29,6 +29,7 @@ public class Controller {
     }
 
     public void onHomeBtnPress(ActionEvent event) {
+        // Returns user to Home Page
         loadStage(homePagePath, event, "Home");
     }
 }
