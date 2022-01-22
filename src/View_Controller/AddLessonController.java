@@ -5,6 +5,7 @@ import Model.Lesson;
 import Model.PaymentType;
 import Model.Student;
 import Model.Subject;
+import Utils.CustomAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -47,24 +48,45 @@ public class AddLessonController extends Controller implements Initializable {
 
         try {
             date = dateDp.getValue();
-            hourlyRate = Integer.parseInt(hourlyRateTf.getText());
-            lessonLength = Integer.parseInt(lessonLengthTf.getText());
+
+            String hourlyRateText = hourlyRateTf.getText();
+
+            String lessonLengthText = lessonLengthTf.getText();
+            if(!hourlyRateText.equals("") || !lessonLengthText.equals("")){
+                hourlyRate = Integer.parseInt(hourlyRateText);
+                lessonLength = Integer.parseInt(lessonLengthText);
+            }
+            else {
+                CustomAlerts.WarningAlert("Warning", "Fill in all text fields");
+                return;
+            }
+
+
             subjectId = subjectCb.getValue().getSubjectId();
             paymentTypeId = paymentTypeCb.getValue().getPaymentTypeId();
             studentId = studentCb.getValue().getStudentId();
         }
         catch (NullPointerException e){
-            System.out.println("Fill in all text fields");
+            CustomAlerts.WarningAlert("Warning", "Fill in all text fields");
             return;
         }
-        boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId, studentId));
-        if (success){
-            dateDp.setValue(null);
-            hourlyRateTf.clear();
-            lessonLengthTf.clear();
-            subjectCb.setValue(null);
-            paymentTypeCb.setValue(null);
-            studentCb.setValue(null);
+        catch (NumberFormatException e){
+            CustomAlerts.WarningAlert("Warning", "Please only enter numbers in hourly rate and lesson length fields");
+            return;
         }
+        boolean confirm = CustomAlerts.ConfirmationAlert("Confirm", "Do you want to add lesson?");
+        if(confirm){
+            boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId, studentId));
+            if (success){
+                dateDp.setValue(null);
+                hourlyRateTf.clear();
+                lessonLengthTf.clear();
+                subjectCb.setValue(null);
+                paymentTypeCb.setValue(null);
+                studentCb.setValue(null);
+            }
+            System.out.println("success");
+        }
+
     }
 }

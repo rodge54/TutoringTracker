@@ -4,6 +4,7 @@ import DataAccess.StudentDb;
 import DataAccess.TimezoneDb;
 import Model.Student;
 import Model.Timezone;
+import Utils.CustomAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -38,7 +39,7 @@ public class AddStudentController extends Controller implements Initializable {
             timezoneId = timezoneCb.getValue().getTimezoneId();
         }
         catch (NullPointerException e){
-            System.out.println("Fill in all text fields");
+            CustomAlerts.WarningAlert("Warning", "Fill in all text fields");
             return;
         }
         boolean success = StudentDb.addStudent(new Student(name, phoneNumber, email, timezoneId));
