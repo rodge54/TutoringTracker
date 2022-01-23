@@ -28,14 +28,10 @@ public class AddLessonController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            StudentDb.setStudents();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
         subjectCb.setItems(SubjectDb.getSubjects());
         paymentTypeCb.setItems(PaymentTypeDb.getPaymentTypes());
-        studentCb.setItems(StudentDb.getStudents());
+        studentCb.setItems(StudentDb.getAllStudents());
     }
 
     public void onAddLessonBtnPress(ActionEvent event) {

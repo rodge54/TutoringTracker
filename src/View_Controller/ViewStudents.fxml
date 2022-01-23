@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ViewStudentsController">
+   <children>
+      <TableView fx:id="studentTbl" layoutX="735.0" layoutY="445.0" prefHeight="400.0" prefWidth="451.0" >
+        <columns>
+          <TableColumn fx:id="studentCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Student" />
+          <TableColumn fx:id="phoneNumberCol" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" text="Phone Number" />
+            <TableColumn fx:id="emailCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Email" />
+<!--            <TableColumn fx:id="timeZoneCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="TimeZone" />-->
+        </columns>
+      </TableView>
+      <Button layoutX="735.0" layoutY="243.0" mnemonicParsing="false" text="Home" onAction="#onHomeBtnPress"/>
+      <Button layoutX="857.0" layoutY="884.0" mnemonicParsing="false" text="Add Student" />
+   </children>
+</AnchorPane>

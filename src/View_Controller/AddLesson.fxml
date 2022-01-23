@@ -14,7 +14,7 @@
         </Button>
         <VBox layoutX="561.0" layoutY="93.0" minHeight="227.0" minWidth="400.0" prefHeight="227.0" prefWidth="798.0">
             <children>
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="800.0" styleClass="title" text="Add New Expense" textAlignment="CENTER">
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="800.0" styleClass="title" text="Add New Lesson" textAlignment="CENTER">
                 </Label>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>

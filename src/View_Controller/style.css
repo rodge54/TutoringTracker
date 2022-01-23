@@ -18,3 +18,9 @@
 .button {
     -fx-font-size: 30px;
 }
+
+.title-lbl {
+    -fx-font-family: sans-serif;
+    -fx-text-fill: #008b8b;
+    -fx-font-size: 45px;
+}

@@ -29,7 +29,7 @@ public class StudentDb extends AllDb{
             students.add(new Student(id, name, phoneNumber, email, timezoneId));
         }
     }
-    public static ObservableList<Student> getStudents() {
+    public static ObservableList<Student> getAllStudents() {
         return students;
     }
 
