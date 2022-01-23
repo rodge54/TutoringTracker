@@ -27,11 +27,6 @@ public class HomeController extends Controller implements Initializable {
         stage.show();
     }
 
-    public void onAddStudentBtnPress(ActionEvent event) {
-        Stage stage = loadStage("AddStudent.fxml", event, "Add Student");
-        stage.show();
-    }
-
     public void onViewLessonBtnPress(ActionEvent event) {
         Stage stage = loadStage("ViewLessons.fxml", event, "View Lessons");
         stage.show();

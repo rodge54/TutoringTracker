@@ -32,4 +32,9 @@ public class Controller {
         // Returns user to Home Page
         loadStage(homePagePath, event, "Home");
     }
+
+    public void onAddStudentBtnPress(ActionEvent event) {
+        Stage stage = loadStage("AddStudent.fxml", event, "Add Student");
+        stage.show();
+    }
 }

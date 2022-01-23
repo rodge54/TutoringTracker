@@ -33,6 +33,7 @@ public class ViewStudentsController extends Controller implements Initializable 
         studentCol.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
         phoneNumberCol.setCellValueFactory(new PropertyValueFactory<Student, String>("phoneNumber"));
         emailCol.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
+        //TODO: Need to add TimeZones
         studentTbl.setItems(data);
     }
 }
