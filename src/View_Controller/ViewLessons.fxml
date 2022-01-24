@@ -41,6 +41,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="earningsLbl" layoutX="946.0" layoutY="715.0" text="\$00.00" />
+      <Label fx:id="earningsLbl" layoutX="851.0" layoutY="721.0" text="Total Earnings: $00.00" />
+      <Label fx:id="hoursLbl" layoutX="669.0" layoutY="721.0" text="Total Hours: 00.00" />
    </children>
 </AnchorPane>

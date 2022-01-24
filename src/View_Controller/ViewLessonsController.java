@@ -30,6 +30,7 @@ public class ViewLessonsController extends Controller implements Initializable {
     @FXML public ComboBox<Integer> yearCb;
     @FXML public ComboBox<String> monthCb;
     @FXML public Label earningsLbl;
+    @FXML public Label hoursLbl;
     private ObservableList<LessonTable> data = FXCollections.observableArrayList();
 
     @Override
@@ -64,6 +65,7 @@ public class ViewLessonsController extends Controller implements Initializable {
         paymentTypeCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("paymentType"));
         earningsCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("earnings"));
         earningsLbl.setText(calculateTotalEarnings());
+        hoursLbl.setText(calculateTotalHours());
         lessonTbl.setItems(data);
     }
 
@@ -85,6 +87,7 @@ public class ViewLessonsController extends Controller implements Initializable {
             );
             data = LessonDb.getFilteredLessons(month, year);
             earningsLbl.setText(calculateTotalEarnings());
+            hoursLbl.setText(calculateTotalHours());
             lessonTbl.setItems(data);
         }
         else{
@@ -99,4 +102,14 @@ public class ViewLessonsController extends Controller implements Initializable {
         stringTotal = "Total Earnings: $" + totalEarnings;
         return stringTotal;
     }
+
+    private String calculateTotalHours(){
+        String stringTotal;
+
+        double totalEarnings = data.stream().mapToDouble(LessonTable::getLength).sum();
+        stringTotal = String.format("Total Hours: %4.2f", totalEarnings/60);
+        return stringTotal;
+    }
+
+
 }
