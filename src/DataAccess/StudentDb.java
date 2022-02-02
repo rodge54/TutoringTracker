@@ -19,7 +19,7 @@ public class StudentDb extends AllDb{
         students.clear();
         Statement statement = SQLDatabase.getConnection().createStatement();
 
-        ResultSet results = statement.executeQuery("SELECT * FROM student");
+        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"student");
         while (results.next()){
             int id = results.getInt("student_id");
             String name = results.getString("name");
@@ -34,7 +34,7 @@ public class StudentDb extends AllDb{
     }
 
     public static boolean addStudent(Student student){
-        String query = "INSERT INTO student(name, phone_number, email, timezone_id)" +
+        String query = "INSERT INTO "+schema+"student(name, phone_number, email, timezone_id)" +
                 "VALUES(?,?,?,?);";
         PreparedStatement ps = null;
         boolean success = false;

@@ -10,13 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SubjectDb {
+public class SubjectDb extends AllDb{
     private static final ObservableList<Subject> subjects = FXCollections.observableArrayList();
 
     public static void setSubjects() throws SQLException {
         Statement statement = SQLDatabase.getConnection().createStatement();
 
-        ResultSet results = statement.executeQuery("SELECT * FROM subject");
+        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"subject");
         while (results.next()){
             int id = results.getInt("subject_id");
             String title = results.getString("title");

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LessonDb extends AllDb{
 
     public static boolean addLesson(Lesson lesson){
-        String query = "INSERT INTO lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id)" +
+        String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id)" +
                 "VALUES(?,?,?,?,?,?);";
         PreparedStatement ps = null;
         boolean success = false;
@@ -41,10 +41,10 @@ public class LessonDb extends AllDb{
     }
 
     public static ObservableList<LessonTable> getAllLessons() throws SQLException {
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM lesson \n" +
-                "INNER JOIN subject ON subject.subject_id = lesson.subject_id\n" +
-                "INNER JOIN student ON student.student_id = lesson.student_id\n" +
-                "INNER JOIN payment_type ON payment_type.payment_type_id = lesson.payment_type_id;";
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM "+schema+"lesson \n" +
+                "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
+                "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
+                "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id;";
         ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
         try {
@@ -110,10 +110,10 @@ public class LessonDb extends AllDb{
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM lesson \n" +
-                "INNER JOIN subject ON subject.subject_id = lesson.subject_id\n" +
-                "INNER JOIN student ON student.student_id = lesson.student_id\n" +
-                "INNER JOIN payment_type ON payment_type.payment_type_id = lesson.payment_type_id\n" +
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM "+schema+"lesson \n" +
+                "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
+                "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
+                "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id\n" +
                 "WHERE date BETWEEN '"+startDate+"' and '"+endDate+"';";
         ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
