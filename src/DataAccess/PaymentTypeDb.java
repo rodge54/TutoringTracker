@@ -15,7 +15,8 @@ public class PaymentTypeDb extends AllDb{
     public static void setPaymentTypes() throws SQLException {
         Statement statement = SQLDatabase.getConnection().createStatement();
 
-        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"payment_type");
+//        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"payment_type");
+        ResultSet results = statement.executeQuery("SELECT TOP (1000) * FROM [tutoring].[payment_type]");
         while (results.next()){
             int id = results.getInt("payment_type_id");
             String name = results.getString("name");

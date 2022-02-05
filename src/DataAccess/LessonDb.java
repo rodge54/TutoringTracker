@@ -41,10 +41,14 @@ public class LessonDb extends AllDb{
     }
 
     public static ObservableList<LessonTable> getAllLessons() throws SQLException {
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM "+schema+"lesson \n" +
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id;";
+//        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, [tutoring].payment_type.name AS payment_name FROM [tutoring].lesson \n" +
+//                "INNER JOIN tutoring.subject ON tutoring.subject.subject_id = tutoring.lesson.subject_id\n" +
+//                "INNER JOIN tutoring.student ON tutoring.student.student_id = tutoring.lesson.student_id\n" +
+//                "INNER JOIN tutoring.payment_type ON tutoring.payment_type.payment_type_id = tutoring.lesson.payment_type_id;";
         ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
         try {
@@ -53,7 +57,7 @@ public class LessonDb extends AllDb{
             while (rs.next()) {
                 int hourlyRate = rs.getInt("hourly_rate");
                 int lessonLength = rs.getInt("lesson_length");
-                String payType = rs.getString("payment_type.name");
+                String payType = rs.getString("payment_name");
 
                 double earnings = hourlyRate * lessonLength;
                 earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
@@ -64,11 +68,11 @@ public class LessonDb extends AllDb{
                 double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
-                        rs.getString("student.name"),
+                        rs.getString("name"),
                         rs.getString("date"),
                         hourlyRate,
                         lessonLength,
-                        rs.getString("subject.title"),
+                        rs.getString("title"),
                         payType,
                         earningsRounded);
                 lessonTables.add(customer);
@@ -110,7 +114,7 @@ public class LessonDb extends AllDb{
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name FROM "+schema+"lesson \n" +
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id\n" +
@@ -124,7 +128,7 @@ public class LessonDb extends AllDb{
             while (rs.next()) {
                 int hourlyRate = rs.getInt("hourly_rate");
                 int lessonLength = rs.getInt("lesson_length");
-                String payType = rs.getString("payment_type.name");
+                String payType = rs.getString("payment_type_name");
 
                 double earnings = hourlyRate * lessonLength;
                 earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
@@ -135,11 +139,11 @@ public class LessonDb extends AllDb{
                 double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
-                        rs.getString("student.name"),
+                        rs.getString("name"),
                         rs.getString("date"),
                         hourlyRate,
                         lessonLength,
-                        rs.getString("subject.title"),
+                        rs.getString("title"),
                         payType,
                         earningsRounded);
                 lessonTables.add(customer);
