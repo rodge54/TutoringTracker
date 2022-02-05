@@ -1,5 +1,6 @@
 package Utils;
 
+import java.io.*;
 import java.sql.*;
 
 public class SQLDatabase {
@@ -15,8 +16,11 @@ public class SQLDatabase {
     public static void connect() {
         try {
             //AZURE CONNECTION
-            String password = "NotMegatron1234!";
-            String connectionString = "jdbc:sqlserver://robserver54.database.windows.net:1433;database=megatron;user=azureuser@robserver54;password="+password+";encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+            //Get password and connection string from DatabaseInfo.txt file - File ignored by gitignore
+            File file = new File("src/Utils/DatabaseInfo.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String connectionString = br.readLine();
+
             conn = DriverManager.getConnection(connectionString);
             System.out.println("Connected to SQL Server Database");
             //LOCAL CONNECTION
@@ -29,6 +33,11 @@ public class SQLDatabase {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

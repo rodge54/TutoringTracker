@@ -28,3 +28,4 @@ out/*
 # User-specific
 .idea/*
 TutoringTracker.iml
+src/Utils/DatabaseInfo.txt
