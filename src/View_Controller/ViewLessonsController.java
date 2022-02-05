@@ -44,7 +44,7 @@ public class ViewLessonsController extends Controller implements Initializable {
         ObservableList<String> months = FXCollections.observableArrayList("January", "February", "March", "April",
                 "May", "June", "July", "August", "September", "October", "November", "December");
         ObservableList<Integer> years = FXCollections.observableArrayList();
-        for (int i = 2019; i < 2022; i++){
+        for (int i = 2019; i <= 2022; i++){
             years.add(i);
         }
         monthCb.setItems(months);
