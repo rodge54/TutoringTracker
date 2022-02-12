@@ -77,10 +77,7 @@ public class ViewLessonsController extends Controller implements Initializable {
                 {
                     if (!lessonTableRow.isPaid())
                     {
-
-                        setStyle("-fx-background-color: #C60000; -fx-text-background-color: #FFFFFF;");
-
-                        System.out.println("yes");
+                        getStyleClass().add("highlight-unpaid");
                     }
                 }
             }

@@ -24,3 +24,8 @@
     -fx-text-fill: #008b8b;
     -fx-font-size: 45px;
 }
+
+.highlight-unpaid {
+    -fx-background-color: #C60000;
+    -fx-text-background-color: #FFFFFF;
+}
