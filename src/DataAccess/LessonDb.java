@@ -47,7 +47,8 @@ public class LessonDb extends AllDb{
     }
 
     public static ObservableList<LessonTable> getAllLessons() throws SQLException {
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name FROM "+schema+"lesson \n" +
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name, paid " +
+                "FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id;";
@@ -80,7 +81,8 @@ public class LessonDb extends AllDb{
                         lessonLength,
                         rs.getString("title"),
                         payType,
-                        earningsRounded);
+                        earningsRounded,
+                        rs.getBoolean("paid"));
                 lessonTables.add(customer);
             }
 
@@ -120,7 +122,7 @@ public class LessonDb extends AllDb{
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name FROM "+schema+"lesson \n" +
+        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name, paid FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id\n" +
@@ -151,7 +153,8 @@ public class LessonDb extends AllDb{
                         lessonLength,
                         rs.getString("title"),
                         payType,
-                        earningsRounded);
+                        earningsRounded,
+                        rs.getBoolean("paid"));
                 lessonTables.add(customer);
             }
             statement.close();

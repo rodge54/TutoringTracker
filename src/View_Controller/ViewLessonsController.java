@@ -8,11 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Paint;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,11 +25,13 @@ public class ViewLessonsController extends Controller implements Initializable {
     @FXML public TableColumn<LessonTable, String> subjectCol;
     @FXML public TableColumn<LessonTable, String> paymentTypeCol;
     @FXML public TableColumn<LessonTable, Integer> earningsCol;
+    @FXML public TableColumn<LessonTable, Boolean> paidCol;
     @FXML public TableView<LessonTable> lessonTbl;
     @FXML public ComboBox<Integer> yearCb;
     @FXML public ComboBox<String> monthCb;
     @FXML public Label earningsLbl;
     @FXML public Label hoursLbl;
+
     private ObservableList<LessonTable> data = FXCollections.observableArrayList();
 
     @Override
@@ -64,6 +65,26 @@ public class ViewLessonsController extends Controller implements Initializable {
         subjectCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("subject"));
         paymentTypeCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("paymentType"));
         earningsCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("earnings"));
+        paidCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Boolean>("paid"));
+        lessonTbl.setRowFactory(lessonTbl -> new TableRow<LessonTable>()
+        {
+            @Override
+            protected void updateItem(LessonTable lessonTableRow, boolean empty)
+            {
+                super.updateItem(lessonTableRow, empty);
+
+                if (lessonTableRow != null )
+                {
+                    if (!lessonTableRow.isPaid())
+                    {
+
+                        setStyle("-fx-background-color: #C60000; -fx-text-background-color: #FFFFFF;");
+
+                        System.out.println("yes");
+                    }
+                }
+            }
+        });
         earningsLbl.setText(calculateTotalEarnings());
         hoursLbl.setText(calculateTotalHours());
         lessonTbl.setItems(data);

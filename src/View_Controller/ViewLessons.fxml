@@ -32,6 +32,7 @@
                     <TableColumn fx:id="subjectCol" prefWidth="75" text="subject" />
                     <TableColumn fx:id="paymentTypeCol" prefWidth="125" text="paymentType" />
                     <TableColumn fx:id="earningsCol" prefWidth="100" text="earnings" />
+                  <TableColumn fx:id="paidCol" prefWidth="75.0" text="paid" />
               </columns>
             </TableView>
          </children>

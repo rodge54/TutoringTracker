@@ -1,9 +1,6 @@
 package Model;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 public class LessonTable{
     private final SimpleStringProperty student = new SimpleStringProperty();
@@ -13,8 +10,9 @@ public class LessonTable{
     private final SimpleStringProperty subject = new SimpleStringProperty();
     private final SimpleStringProperty paymentType = new SimpleStringProperty();
     private final SimpleDoubleProperty earnings = new SimpleDoubleProperty();
+    private final SimpleBooleanProperty paid = new SimpleBooleanProperty();
 
-    public LessonTable(String student, String date, int rate, int length, String subject, String paymentType, double earnings) {
+    public LessonTable(String student, String date, int rate, int length, String subject, String paymentType, double earnings, boolean paid) {
         setStudent(student);
         setDate(date);
         setRate(rate);
@@ -22,6 +20,7 @@ public class LessonTable{
         setSubject(subject);
         setPaymentType(paymentType);
         setEarnings(earnings);
+        setPaid(paid);
     }
 
     public String getStudent() {
@@ -106,5 +105,17 @@ public class LessonTable{
 
     public void setEarnings(double earnings) {
         this.earnings.set(earnings);
+    }
+
+    public boolean isPaid() {
+        return paid.get();
+    }
+
+    public SimpleBooleanProperty paidProperty() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid.set(paid);
     }
 }
