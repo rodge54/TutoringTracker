@@ -12,14 +12,16 @@ public class Lesson {
     private int subjectId;
     private int paymentId;
     private int studentId;
+    private boolean paid;
 
-    public Lesson(LocalDate date, int hourlyRate, int lessonLength, int subjectId, int paymentId, int studentId) {
+    public Lesson(LocalDate date, int hourlyRate, int lessonLength, int subjectId, int paymentId, int studentId, boolean paid) {
         this.date = date;
         this.hourlyRate = hourlyRate;
         this.lessonLength = lessonLength;
         this.subjectId = subjectId;
         this.paymentId = paymentId;
         this.studentId = studentId;
+        this.paid = paid;
     }
 
     public int getLessonId() {
@@ -76,5 +78,13 @@ public class Lesson {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 }

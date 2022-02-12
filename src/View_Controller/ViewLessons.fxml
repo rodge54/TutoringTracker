@@ -25,13 +25,13 @@
             </HBox>
             <TableView fx:id="lessonTbl" prefHeight="600" prefWidth="1000">
               <columns>
-                    <TableColumn fx:id="studentCol" prefWidth="160.33331871032715" text="student" />
+                    <TableColumn fx:id="studentCol" prefWidth="125" text="student" />
                     <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="75" text="date" />
                     <TableColumn fx:id="rateCol" minWidth="5.33331298828125" prefWidth="49.33329772949219" text="rate" />
                     <TableColumn fx:id="lengthCol" prefWidth="75" text="length" />
                     <TableColumn fx:id="subjectCol" prefWidth="75" text="subject" />
-                    <TableColumn fx:id="paymentTypeCol" prefWidth="100" text="paymentType" />
-                    <TableColumn fx:id="earningsCol" prefWidth="75" text="earnings" />
+                    <TableColumn fx:id="paymentTypeCol" prefWidth="125" text="paymentType" />
+                    <TableColumn fx:id="earningsCol" prefWidth="100" text="earnings" />
               </columns>
             </TableView>
          </children>

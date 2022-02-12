@@ -18,7 +18,7 @@
                 </Label>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <VBox prefHeight="200.0" prefWidth="400.0">
+                        <VBox prefHeight="309.0" prefWidth="400.0">
                             <children>
                                 <Label prefHeight="27.0" prefWidth="402.0" styleClass="new-lesson-lbl" text="Date" />
                                 <Label prefHeight="25.0" prefWidth="400.0" styleClass="new-lesson-lbl" text="Hourly Rate" />
@@ -26,31 +26,64 @@
                                 <Label prefHeight="25.0" prefWidth="400.0" styleClass="new-lesson-lbl" text="Subject" />
                                 <Label layoutX="10.0" layoutY="86.0" prefHeight="25.0" prefWidth="400.0" styleClass="new-lesson-lbl" text="Payment Type" />
                                 <Label layoutX="10.0" layoutY="111.0" prefHeight="25.0" prefWidth="400.0" styleClass="new-lesson-lbl" text="Student" />
+                        <Label text="Paid" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="400.0">
+                        <VBox prefHeight="349.0" prefWidth="399.0">
                             <children>
-                                <DatePicker fx:id="dateDp" styleClass="new-lesson-entry">
+                                <DatePicker fx:id="dateDp" prefHeight="25.0" styleClass="new-lesson-entry">
                            <VBox.margin>
                               <Insets bottom="25.0" />
                            </VBox.margin></DatePicker>
-                                <TextField fx:id="hourlyRateTf" styleClass="new-lesson-entry">
+                                <TextField fx:id="hourlyRateTf" prefHeight="25.0" styleClass="new-lesson-entry">
                            <VBox.margin>
                               <Insets bottom="25.0" />
                            </VBox.margin></TextField>
-                                <TextField fx:id="lessonLengthTf" styleClass="new-lesson-entry">
+                                <TextField fx:id="lessonLengthTf" prefHeight="25.0" styleClass="new-lesson-entry">
                            <VBox.margin>
                               <Insets bottom="25.0" />
                            </VBox.margin></TextField>
-                                <ComboBox fx:id="subjectCb" prefWidth="150.0" styleClass="new-lesson-entry">
+                                <ComboBox fx:id="subjectCb" prefHeight="25.0" prefWidth="150.0" styleClass="new-lesson-entry">
                            <VBox.margin>
                               <Insets bottom="25.0" />
                            </VBox.margin></ComboBox>
-                                <ComboBox fx:id="paymentTypeCb" layoutX="10.0" layoutY="86.0" prefWidth="150.0" styleClass="new-lesson-entry">
+                                <ComboBox fx:id="paymentTypeCb" layoutX="10.0" layoutY="86.0" prefHeight="25.0" prefWidth="150.0" styleClass="new-lesson-entry">
                            <VBox.margin>
                               <Insets bottom="25.0" />
                            </VBox.margin></ComboBox>
-                                <ComboBox fx:id="studentCb" layoutX="10.0" layoutY="111.0" prefWidth="150.0" styleClass="new-lesson-entry" />
+                                <ComboBox fx:id="studentCb" layoutX="10.0" layoutY="111.0" prefHeight="25.0" prefWidth="150.0" styleClass="new-lesson-entry" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="399.0">
+                           <children>
+                              <RadioButton fx:id="yesRb" mnemonicParsing="false" prefHeight="25.0" text="Yes">
+                                 <padding>
+                                    <Insets right="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="group" />
+                                  </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="noRb" mnemonicParsing="false" text="No">
+                                 <HBox.margin>
+                                    <Insets right="25.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets right="25.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                  <toggleGroup>
+                                      <fx:reference source="group" />
+                                  </toggleGroup>
+                              </RadioButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </HBox>
                             </children>
                      <HBox.margin>
                         <Insets bottom="25.0" />

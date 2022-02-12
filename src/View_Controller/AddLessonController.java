@@ -8,9 +8,7 @@ import Model.Subject;
 import Utils.CustomAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,6 +23,9 @@ public class AddLessonController extends Controller implements Initializable {
     public ComboBox<Subject> subjectCb;
     public ComboBox<PaymentType> paymentTypeCb;
     public ComboBox<Student> studentCb;
+    public ToggleGroup group;
+    public RadioButton yesRb;
+    public RadioButton noRb;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,6 +33,7 @@ public class AddLessonController extends Controller implements Initializable {
         subjectCb.setItems(SubjectDb.getSubjects());
         paymentTypeCb.setItems(PaymentTypeDb.getPaymentTypes());
         studentCb.setItems(StudentDb.getAllStudents());
+        yesRb.setSelected(true);
     }
 
     public void onAddLessonBtnPress(ActionEvent event) {
@@ -41,6 +43,11 @@ public class AddLessonController extends Controller implements Initializable {
         int subjectId = 0;
         int paymentTypeId = 0;
         int studentId = 0;
+        boolean paid = false;
+        RadioButton selected = (RadioButton) group.getSelectedToggle();
+        if (selected.getText().equals("Yes")){
+            paid = true;
+        }
 
         try {
             date = dateDp.getValue();
@@ -56,11 +63,10 @@ public class AddLessonController extends Controller implements Initializable {
                 CustomAlerts.WarningAlert("Warning", "Fill in all text fields");
                 return;
             }
-
-
             subjectId = subjectCb.getValue().getSubjectId();
             paymentTypeId = paymentTypeCb.getValue().getPaymentTypeId();
             studentId = studentCb.getValue().getStudentId();
+
         }
         catch (NullPointerException e){
             CustomAlerts.WarningAlert("Warning", "Fill in all text fields");
@@ -72,7 +78,7 @@ public class AddLessonController extends Controller implements Initializable {
         }
         boolean confirm = CustomAlerts.ConfirmationAlert("Confirm", "Do you want to add lesson?");
         if(confirm){
-            boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId, studentId));
+            boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId, studentId, paid));
             if (success){
                 dateDp.setValue(null);
                 hourlyRateTf.clear();
@@ -83,6 +89,5 @@ public class AddLessonController extends Controller implements Initializable {
             }
             System.out.println("success");
         }
-
     }
 }

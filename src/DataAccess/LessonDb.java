@@ -16,6 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class LessonDb extends AllDb{
 
+    /**
+     *
+     * @param lesson
+     * @return -
+     */
     public static boolean addLesson(Lesson lesson){
         String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id)" +
                 "VALUES(?,?,?,?,?,?);";
