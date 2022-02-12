@@ -22,8 +22,8 @@ public class LessonDb extends AllDb{
      * @return -
      */
     public static boolean addLesson(Lesson lesson){
-        String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id)" +
-                "VALUES(?,?,?,?,?,?);";
+        String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id, paid)" +
+                "VALUES(?,?,?,?,?,?,?);";
         PreparedStatement ps = null;
         boolean success = false;
         try {
@@ -34,6 +34,7 @@ public class LessonDb extends AllDb{
             ps.setInt(4, lesson.getSubjectId());
             ps.setInt(5, lesson.getPaymentId());
             ps.setInt(6, lesson.getStudentId());
+            ps.setBoolean(7, lesson.isPaid());
             int numRowsInserted = ps.executeUpdate();
             System.out.println(numRowsInserted + " rows inserted into lesson table.");
             success = true;

@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.stream.Collectors;
 
 public class StudentDb extends AllDb{
     private static final ObservableList<Student> students = FXCollections.observableArrayList();
@@ -19,7 +20,7 @@ public class StudentDb extends AllDb{
         students.clear();
         Statement statement = SQLDatabase.getConnection().createStatement();
 
-        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"student");
+        ResultSet results = statement.executeQuery("SELECT * FROM "+schema+"student ORDER BY name");
         while (results.next()){
             int id = results.getInt("student_id");
             String name = results.getString("name");
