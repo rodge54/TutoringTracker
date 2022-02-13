@@ -7,7 +7,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 public class CustomAlerts {
-    // TODO: Create custom alerts
+
     public static void WarningAlert(String title, String message){
         Alert a = new Alert(Alert.AlertType.NONE);
         // set alert type
