@@ -130,4 +130,14 @@ public class ViewLessonsController extends Controller implements Initializable {
     }
 
 
+    public void onMarkPaidBtnPress(ActionEvent actionEvent) {
+        LessonTable selectedItem = lessonTbl.getSelectionModel().getSelectedItem();
+        LessonDb.markPaid(selectedItem);
+    }
+
+    public void onDeleteBtnPress(ActionEvent actionEvent) {
+    }
+
+    public void onEditButtonPress(ActionEvent actionEvent) {
+    }
 }

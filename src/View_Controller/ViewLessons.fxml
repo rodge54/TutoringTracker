@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ViewLessonsController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ViewLessonsController">
    <children>
       <VBox layoutX="25.0" layoutY="100.0" prefHeight="600.0" prefWidth="1000">
          <children>
@@ -44,5 +44,8 @@
       </Button>
       <Label fx:id="earningsLbl" layoutX="851.0" layoutY="721.0" text="Total Earnings: $00.00" />
       <Label fx:id="hoursLbl" layoutX="669.0" layoutY="721.0" text="Total Hours: 00.00" />
+      <Button layoutX="59.0" layoutY="722.0" mnemonicParsing="false" onAction="#onMarkPaidBtnPress" text="Mark Paid" />
+      <Button layoutX="263.0" layoutY="722.0" mnemonicParsing="false" onAction="#onDeleteBtnPress" text="Delete" />
+      <Button layoutX="422.0" layoutY="722.0" mnemonicParsing="false" onAction="#onEditButtonPress" text="Edit" />
    </children>
 </AnchorPane>

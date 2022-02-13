@@ -3,6 +3,7 @@ package Model;
 import javafx.beans.property.*;
 
 public class LessonTable{
+    private final SimpleIntegerProperty lessonId = new SimpleIntegerProperty();
     private final SimpleStringProperty student = new SimpleStringProperty();
     private final SimpleStringProperty date =  new SimpleStringProperty();
     private final SimpleIntegerProperty rate = new SimpleIntegerProperty();
@@ -12,7 +13,8 @@ public class LessonTable{
     private final SimpleDoubleProperty earnings = new SimpleDoubleProperty();
     private final SimpleBooleanProperty paid = new SimpleBooleanProperty();
 
-    public LessonTable(String student, String date, int rate, int length, String subject, String paymentType, double earnings, boolean paid) {
+    public LessonTable(int lessonId, String student, String date, int rate, int length, String subject, String paymentType, double earnings, boolean paid) {
+        setLessonId(lessonId);
         setStudent(student);
         setDate(date);
         setRate(rate);
@@ -21,6 +23,18 @@ public class LessonTable{
         setPaymentType(paymentType);
         setEarnings(earnings);
         setPaid(paid);
+    }
+
+    public int getLessonId() {
+        return lessonId.get();
+    }
+
+    public SimpleIntegerProperty lessonIdProperty() {
+        return lessonId;
+    }
+
+    public void setLessonId(int lessonId) {
+        this.lessonId.set(lessonId);
     }
 
     public String getStudent() {

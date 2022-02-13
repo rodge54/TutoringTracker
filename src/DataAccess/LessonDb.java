@@ -46,8 +46,27 @@ public class LessonDb extends AllDb{
         return success;
     }
 
+    public static boolean markPaid(LessonTable lesson){
+        String query = "UPDATE "+schema+"lesson " +
+                "SET paid = 'true' " +
+                "WHERE lesson_id = ?;";
+        PreparedStatement ps = null;
+        boolean success = false;
+        try {
+            ps = SQLDatabase.getConnection().prepareStatement(query);
+            ps.setInt(1, lesson.getLessonId());
+            int numRowsUpdated = ps.executeUpdate();
+            System.out.println(numRowsUpdated + " rows update in lesson table.");
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(ps);
+        }
+        return success;
+    }
     public static ObservableList<LessonTable> getAllLessons() throws SQLException {
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name, paid " +
+        String query = "SELECT lesson_id, student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name, paid " +
                 "FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
@@ -75,6 +94,7 @@ public class LessonDb extends AllDb{
                 double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
+                        rs.getInt("lesson_id"),
                         rs.getString("name"),
                         rs.getString("date"),
                         hourlyRate,
@@ -122,7 +142,7 @@ public class LessonDb extends AllDb{
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);
-        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name, paid FROM "+schema+"lesson \n" +
+        String query = "SELECT lesson_id, student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name, paid FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id\n" +
@@ -147,6 +167,7 @@ public class LessonDb extends AllDb{
                 double earningsRounded = earningsBd.doubleValue();
 
                 LessonTable customer = new LessonTable(
+                        rs.getInt("lesson_id"),
                         rs.getString("name"),
                         rs.getString("date"),
                         hourlyRate,
