@@ -1,6 +1,7 @@
 package View_Controller;
 
 import DataAccess.LessonDb;
+import Model.Lesson;
 import Model.LessonTable;
 import Utils.CustomAlerts;
 import javafx.collections.FXCollections;
@@ -16,21 +17,21 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ViewLessonsController extends Controller implements Initializable {
-    @FXML public TableColumn<LessonTable, String> studentCol;
-    @FXML public TableColumn<LessonTable, String> dateCol;
-    @FXML public TableColumn<LessonTable, Integer> rateCol;
-    @FXML public TableColumn<LessonTable, Integer> lengthCol;
-    @FXML public TableColumn<LessonTable, String> subjectCol;
-    @FXML public TableColumn<LessonTable, String> paymentTypeCol;
-    @FXML public TableColumn<LessonTable, Integer> earningsCol;
-    @FXML public TableColumn<LessonTable, Boolean> paidCol;
-    @FXML public TableView<LessonTable> lessonTbl;
+    @FXML public TableColumn<Lesson, String> studentCol;
+    @FXML public TableColumn<Lesson, String> dateCol;
+    @FXML public TableColumn<Lesson, Integer> rateCol;
+    @FXML public TableColumn<Lesson, Integer> lengthCol;
+    @FXML public TableColumn<Lesson, String> subjectCol;
+    @FXML public TableColumn<Lesson, String> paymentTypeCol;
+    @FXML public TableColumn<Lesson, Integer> earningsCol;
+    @FXML public TableColumn<Lesson, Boolean> paidCol;
+    @FXML public TableView<Lesson> lessonTbl;
     @FXML public ComboBox<Integer> yearCb;
     @FXML public ComboBox<String> monthCb;
     @FXML public Label earningsLbl;
     @FXML public Label hoursLbl;
 
-    private ObservableList<LessonTable> data = FXCollections.observableArrayList();
+    private ObservableList<Lesson> data = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,24 +57,25 @@ public class ViewLessonsController extends Controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        studentCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("student"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("date"));
-        rateCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("rate"));
-        lengthCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("length"));
-        subjectCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("subject"));
-        paymentTypeCol.setCellValueFactory(new PropertyValueFactory<LessonTable, String>("paymentType"));
-        earningsCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Integer>("earnings"));
-        paidCol.setCellValueFactory(new PropertyValueFactory<LessonTable, Boolean>("paid"));
-        lessonTbl.setRowFactory(lessonTbl -> new TableRow<LessonTable>()
+        // TODO: change table to accept lesson object
+        studentCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("student"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("date"));
+        rateCol.setCellValueFactory(new PropertyValueFactory<Lesson, Integer>("hourlyRate"));
+        lengthCol.setCellValueFactory(new PropertyValueFactory<Lesson, Integer>("lessonLength"));
+        subjectCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("subject"));
+        paymentTypeCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("paymentType"));
+        earningsCol.setCellValueFactory(new PropertyValueFactory<Lesson, Integer>("earnings"));
+        paidCol.setCellValueFactory(new PropertyValueFactory<Lesson, Boolean>("paid"));
+        lessonTbl.setRowFactory(lessonTbl -> new TableRow<Lesson>()
         {
             @Override
-            protected void updateItem(LessonTable lessonTableRow, boolean empty)
+            protected void updateItem(Lesson lessonRow, boolean empty)
             {
-                super.updateItem(lessonTableRow, empty);
+                super.updateItem(lessonRow, empty);
 
-                if (lessonTableRow != null )
+                if (lessonRow != null )
                 {
-                    if (!lessonTableRow.isPaid())
+                    if (!lessonRow.isPaid())
                     {
                         getStyleClass().add("highlight-unpaid");
                     }
@@ -114,7 +116,7 @@ public class ViewLessonsController extends Controller implements Initializable {
     private String calculateTotalEarnings(){
         String stringTotal;
 
-        double totalEarnings = data.stream().mapToDouble(LessonTable::getEarnings).sum();
+        double totalEarnings = data.stream().mapToDouble(Lesson::getEarnings).sum();
         stringTotal = "Total Earnings: $" + totalEarnings;
         return stringTotal;
     }
@@ -122,14 +124,13 @@ public class ViewLessonsController extends Controller implements Initializable {
     private String calculateTotalHours(){
         String stringTotal;
 
-        double totalEarnings = data.stream().mapToDouble(LessonTable::getLength).sum();
+        double totalEarnings = data.stream().mapToDouble(Lesson::getLessonLength).sum();
         stringTotal = String.format("Total Hours: %4.2f", totalEarnings/60);
         return stringTotal;
     }
 
-
     public void onMarkPaidBtnPress(ActionEvent actionEvent) {
-        LessonTable selectedItem = lessonTbl.getSelectionModel().getSelectedItem();
+        Lesson selectedItem = lessonTbl.getSelectionModel().getSelectedItem();
         LessonDb.markPaid(selectedItem);
     }
 

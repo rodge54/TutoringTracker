@@ -1,6 +1,13 @@
 package Model;
 
-public class PaymentType {
+import DataAccess.AllDb;
+import Utils.SQLDatabase;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class PaymentType extends AllDb {
     private int paymentTypeId;
     private String name;
 

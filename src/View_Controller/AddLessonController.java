@@ -36,7 +36,7 @@ public class AddLessonController extends Controller implements Initializable {
         yesRb.setSelected(true);
     }
 
-    public void onAddLessonBtnPress(ActionEvent event) {
+    public void onAddLessonBtnPress(ActionEvent event) throws SQLException {
         LocalDate date = null;
         int hourlyRate = 0;
         int lessonLength = 0;
@@ -44,6 +44,7 @@ public class AddLessonController extends Controller implements Initializable {
         int paymentTypeId = 0;
         int studentId = 0;
         boolean paid = false;
+
         RadioButton selected = (RadioButton) group.getSelectedToggle();
         if (selected.getText().equals("Yes")){
             paid = true;
@@ -77,8 +78,13 @@ public class AddLessonController extends Controller implements Initializable {
             return;
         }
         boolean confirm = CustomAlerts.ConfirmationAlert("Confirm", "Do you want to add lesson?");
+
+        Subject subject = SubjectDb.getSubjectById(subjectId);
+        PaymentType paymentType = PaymentTypeDb.getPaymentTypeById(paymentTypeId);
+        Student student = StudentDb.getStudentById(studentId);
         if(confirm){
-            boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId, studentId, paid));
+            boolean success = LessonDb.addLesson(new Lesson(date, hourlyRate, lessonLength, subjectId, paymentTypeId,
+                    studentId, paid, subject, paymentType, student));
             if (success){
                 dateDp.setValue(null);
                 hourlyRateTf.clear();

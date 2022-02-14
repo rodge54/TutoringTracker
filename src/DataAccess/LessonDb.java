@@ -1,7 +1,6 @@
 package DataAccess;
 
-import Model.Lesson;
-import Model.LessonTable;
+import Model.*;
 import Utils.SQLDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class LessonDb extends AllDb{
 
@@ -22,7 +23,7 @@ public class LessonDb extends AllDb{
      * @return -
      */
     public static boolean addLesson(Lesson lesson){
-        String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id, paid)" +
+        String query = "INSERT INTO "+schema+"lesson(date, hourly_rate, lesson_length, subject_id, payment_type_id, student_id, paid) " +
                 "VALUES(?,?,?,?,?,?,?);";
         PreparedStatement ps = null;
         boolean success = false;
@@ -46,7 +47,7 @@ public class LessonDb extends AllDb{
         return success;
     }
 
-    public static boolean markPaid(LessonTable lesson){
+    public static boolean markPaid(Lesson lesson){
         String query = "UPDATE "+schema+"lesson " +
                 "SET paid = 'true' " +
                 "WHERE lesson_id = ?;";
@@ -65,57 +66,21 @@ public class LessonDb extends AllDb{
         }
         return success;
     }
-    public static ObservableList<LessonTable> getAllLessons() throws SQLException {
-        String query = "SELECT lesson_id, student.name, date, hourly_rate, lesson_length, subject.title, "+schema+"payment_type.name AS payment_name, paid " +
+    public static ObservableList<Lesson> getAllLessons() throws SQLException {
+        String query = "SELECT lesson_id, date, hourly_rate, lesson_length, lesson.subject_id, lesson.payment_type_id, lesson.student_id, paid, title, payment_type.name AS payment_type_name, student.name AS student_name, phone_number, email, timezone_id " +
                 "FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
                 "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id;";
-//        String query = "SELECT student.name, date, hourly_rate, lesson_length, subject.title, [tutoring].payment_type.name AS payment_name FROM [tutoring].lesson \n" +
-//                "INNER JOIN tutoring.subject ON tutoring.subject.subject_id = tutoring.lesson.subject_id\n" +
-//                "INNER JOIN tutoring.student ON tutoring.student.student_id = tutoring.lesson.student_id\n" +
-//                "INNER JOIN tutoring.payment_type ON tutoring.payment_type.payment_type_id = tutoring.lesson.payment_type_id;";
-        ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
-
         try {
-            Statement statement = SQLDatabase.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-                int hourlyRate = rs.getInt("hourly_rate");
-                int lessonLength = rs.getInt("lesson_length");
-                String payType = rs.getString("payment_name");
-
-                double earnings = hourlyRate * lessonLength;
-                earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
-                System.out.println(earnings);
-                // one line
-                BigDecimal earningsBd = new BigDecimal(earnings).setScale(2, RoundingMode.HALF_UP);
-                // convert BigDecimal back to double
-                double earningsRounded = earningsBd.doubleValue();
-
-                LessonTable customer = new LessonTable(
-                        rs.getInt("lesson_id"),
-                        rs.getString("name"),
-                        rs.getString("date"),
-                        hourlyRate,
-                        lessonLength,
-                        rs.getString("title"),
-                        payType,
-                        earningsRounded,
-                        rs.getBoolean("paid"));
-                lessonTables.add(customer);
-            }
-
-            statement.close();
-            return lessonTables;
-
+            return buildLessonList(query);
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             return null;
         }
     }
 
-    public static ObservableList<LessonTable> getFilteredLessons(int month, int year) {
+    public static ObservableList<Lesson> getFilteredLessons(int month, int year) {
         int day = 31;
         String startDate;
         String endDate;
@@ -139,51 +104,74 @@ public class LessonDb extends AllDb{
             endDate = year + "-" + month + "-" + day;
         }
 
-        System.out.println(day);
-        System.out.println(month);
-        System.out.println(year);
-        String query = "SELECT lesson_id, student.name, date, hourly_rate, lesson_length, subject.title, payment_type.name AS payment_type_name, paid FROM "+schema+"lesson \n" +
+        String query = "SELECT lesson_id, date, hourly_rate, lesson_length, lesson.subject_id, lesson.payment_type_id, lesson.student_id, paid, title, payment_type.name AS payment_type_name, student.name AS student_name, phone_number, email, timezone_id " +
+                "FROM "+schema+"lesson \n" +
                 "INNER JOIN "+schema+"subject ON "+schema+"subject.subject_id = "+schema+"lesson.subject_id\n" +
                 "INNER JOIN "+schema+"student ON "+schema+"student.student_id = "+schema+"lesson.student_id\n" +
-                "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id\n" +
+                "INNER JOIN "+schema+"payment_type ON "+schema+"payment_type.payment_type_id = "+schema+"lesson.payment_type_id "+
                 "WHERE date BETWEEN '"+startDate+"' and '"+endDate+"';";
-        ObservableList<LessonTable> lessonTables = FXCollections.observableArrayList();
 
         try {
-            Statement statement = SQLDatabase.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(query);
-
-            while (rs.next()) {
-                int hourlyRate = rs.getInt("hourly_rate");
-                int lessonLength = rs.getInt("lesson_length");
-                String payType = rs.getString("payment_type_name");
-
-                double earnings = hourlyRate * lessonLength;
-                earnings = payType.equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
-                // one line
-                BigDecimal earningsBd = new BigDecimal(earnings).setScale(2, RoundingMode.HALF_UP);
-                System.out.println(earningsBd);
-                // convert BigDecimal back to double
-                double earningsRounded = earningsBd.doubleValue();
-
-                LessonTable customer = new LessonTable(
-                        rs.getInt("lesson_id"),
-                        rs.getString("name"),
-                        rs.getString("date"),
-                        hourlyRate,
-                        lessonLength,
-                        rs.getString("title"),
-                        payType,
-                        earningsRounded,
-                        rs.getBoolean("paid"));
-                lessonTables.add(customer);
-            }
-            statement.close();
-            System.out.println(lessonTables.size());
-            return lessonTables;
+            return buildLessonList(query);
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             return null;
         }
+    }
+    private static ObservableList<Lesson> buildLessonList(String query) throws SQLException {
+        Statement statement = SQLDatabase.getConnection().createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        ObservableList<Lesson> lessonTables = FXCollections.observableArrayList();
+        while (rs.next()) {
+            int lessonId = rs.getInt("lesson_id");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            formatter = formatter.withLocale( new Locale("en"));  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+            String stringDate = rs.getString("date");
+            LocalDate date = LocalDate.parse(stringDate);
+            int hourlyRate = rs.getInt("hourly_rate");
+            int lessonLength = rs.getInt("lesson_length");
+
+            // Student creation
+            int studentId = rs.getInt("student_id");
+            String name = rs.getString("student_name");
+            String phoneNumber = rs.getString("phone_number");
+            String email = rs.getString("email");
+            int timeZoneId = rs.getInt("timezone_id");
+            Student student = new Student(studentId, name, phoneNumber, email, timeZoneId);
+            // Subject creation
+            int subjectId = rs.getInt("subject_id");
+            String title = rs.getString("title");
+            Subject subject = new Subject(subjectId, title);
+            // Payment Type creation
+            int paymentTypeId = rs.getInt("payment_type_id");
+            String paymentTypeName = rs.getString("payment_type_name");
+            PaymentType paymentType = new PaymentType(paymentTypeId, paymentTypeName);
+
+            double earnings = hourlyRate * lessonLength;
+            earnings = paymentType.getName().equals("Wyzant") ?((earnings - (earnings * .25))/60):(earnings/60);
+
+            // one line
+            BigDecimal earningsBd = new BigDecimal(earnings).setScale(2, RoundingMode.HALF_UP);
+            // convert BigDecimal back to double
+            double earningsRounded = earningsBd.doubleValue();
+            boolean paid = rs.getBoolean("paid");
+
+            Lesson lesson = new Lesson(
+                    date,
+                    hourlyRate,
+                    lessonLength,
+                    subjectId,
+                    paymentTypeId,
+                    studentId,
+                    paid,
+                    subject,
+                    paymentType,
+                    student
+            );
+            lessonTables.add(lesson);
+        }
+
+        statement.close();
+        return lessonTables;
     }
 }
