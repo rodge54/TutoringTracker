@@ -2,7 +2,6 @@ package View_Controller;
 
 import DataAccess.LessonDb;
 import Model.Lesson;
-import Model.LessonTable;
 import Utils.CustomAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

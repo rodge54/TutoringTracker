@@ -2,7 +2,6 @@ package View_Controller;
 
 import DataAccess.LessonDb;
 import DataAccess.StudentDb;
-import Model.LessonTable;
 import Model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
