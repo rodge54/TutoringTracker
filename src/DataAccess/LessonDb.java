@@ -156,7 +156,7 @@ public class LessonDb extends AllDb{
             double earningsRounded = earningsBd.doubleValue();
             boolean paid = rs.getBoolean("paid");
 
-            Lesson lesson = new Lesson(
+            Lesson lesson = new Lesson(lessonId,
                     date,
                     hourlyRate,
                     lessonLength,
@@ -173,5 +173,27 @@ public class LessonDb extends AllDb{
 
         statement.close();
         return lessonTables;
+    }
+
+    public static boolean deleteLesson(Lesson selectedItem) {
+        String query = "DELETE FROM "+schema+"lesson WHERE lesson_id = ?;";
+        PreparedStatement ps = null;
+        boolean success = false;
+        try {
+            System.out.println(selectedItem.getStudent().getName());
+            System.out.println(selectedItem.getStudentId());
+            System.out.println(selectedItem.getLessonId());
+            ps = SQLDatabase.getConnection().prepareStatement(query);
+            ps.setInt(1, selectedItem.getLessonId());
+            int numRowsUpdated = ps.executeUpdate();
+            System.out.println(numRowsUpdated + " rows deleted in lesson table.");
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            close(ps);
+        }
+        return success;
     }
 }

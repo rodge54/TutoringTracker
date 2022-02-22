@@ -2,6 +2,7 @@ package View_Controller;
 
 import DataAccess.LessonDb;
 import Model.Lesson;
+import Model.Student;
 import Utils.CustomAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,8 +13,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class ViewLessonsController extends Controller implements Initializable {
     @FXML public TableColumn<Lesson, String> studentCol;
@@ -51,11 +53,9 @@ public class ViewLessonsController extends Controller implements Initializable {
     }
 
     private void setupLessonTable() {
-        try {
-            data = LessonDb.getAllLessons();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+        data = LessonDb.getFilteredLessons(LocalDateTime.now().getMonthValue(), LocalDateTime.now().getYear());
+
         // TODO: change table to accept lesson object
         studentCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("student"));
         dateCol.setCellValueFactory(new PropertyValueFactory<Lesson, String>("date"));
@@ -102,6 +102,7 @@ public class ViewLessonsController extends Controller implements Initializable {
             System.out.println(
                     year + month
             );
+
             data = LessonDb.getFilteredLessons(month, year);
             earningsLbl.setText(calculateTotalEarnings());
             hoursLbl.setText(calculateTotalHours());
@@ -131,9 +132,26 @@ public class ViewLessonsController extends Controller implements Initializable {
     public void onMarkPaidBtnPress(ActionEvent actionEvent) {
         Lesson selectedItem = lessonTbl.getSelectionModel().getSelectedItem();
         LessonDb.markPaid(selectedItem);
+        data.stream().filter(obj->obj.getLessonId()==selectedItem.getLessonId())
+                .findFirst()
+                .ifPresent(o->o.setPaid(true));
+        lessonTbl.setItems(data);
+        lessonTbl.refresh();
     }
 
     public void onDeleteBtnPress(ActionEvent actionEvent) {
+        Lesson selectedItem = lessonTbl.getSelectionModel().getSelectedItem();
+        boolean success = LessonDb.deleteLesson(selectedItem);
+        Predicate<Lesson> equalsId = i -> (i.getLessonId() == selectedItem.getLessonId());
+        if (success) {
+            for (Lesson lesson:data) {
+                if (lesson.getLessonId() == selectedItem.getLessonId()){
+                    data.remove(lesson);
+                    lessonTbl.setItems(data);
+                    lessonTbl.refresh();
+                }
+            }
+        }
     }
 
     public void onEditButtonPress(ActionEvent actionEvent) {

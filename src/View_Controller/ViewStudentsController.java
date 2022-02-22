@@ -1,6 +1,5 @@
 package View_Controller;
 
-import DataAccess.LessonDb;
 import DataAccess.StudentDb;
 import Model.Student;
 import javafx.collections.FXCollections;
@@ -11,7 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ViewStudentsController extends Controller implements Initializable {
